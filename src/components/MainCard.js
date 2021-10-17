@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react'
 import {
   Card,
   CardContent,
   CardHeader,
   Divider,
   Typography,
-  useTheme,
-} from "@material-ui/core";
-import PropTypes from "prop-types";
+  useTheme
+} from '@material-ui/core'
+import PropTypes from 'prop-types'
 const headerSX = {
-  "&.MuiCardHeader-action": { mr: 0 },
-};
+  '&.MuiCardHeader-action': { mr: 0 }
+}
 
 const MainCard = React.forwardRef(
   (
@@ -30,20 +30,20 @@ const MainCard = React.forwardRef(
     },
     ref
   ) => {
-    const theme = useTheme();
+    const theme = useTheme()
     return (
       <Card
         ref={ref}
         {...others}
         sx={{
-          border: border ? "1px solid" : "none",
+          border: border ? '1px solid' : 'none',
           borderColor: theme.palette.primary[200] + 75,
-          ":hover": {
+          ':hover': {
             boxShadow: boxShadow
-              ? shadow || "0 2px 14px 0 rgb(32 40 45 / *%)"
-              : "inherit",
+              ? shadow || '0 2px 14px 0 rgb(32 40 45 / *%)'
+              : 'inherit'
           },
-          ...sx,
+          ...sx
         }}
       >
         {!darkTitle && title && (
@@ -52,7 +52,7 @@ const MainCard = React.forwardRef(
         {darkTitle && title && (
           <CardHeader
             sx={headerSX}
-            title={<Typography variant={"h3"}>{title}</Typography>}
+            title={<Typography variant={'h3'}>{title}</Typography>}
           />
         )}
         {title && <Divider />}
@@ -63,10 +63,10 @@ const MainCard = React.forwardRef(
         )}
         {!content && children}
       </Card>
-    );
+    )
   }
-);
-MainCard.displayName = "MainCardComponent";
+)
+MainCard.displayName = 'MainCardComponent'
 MainCard.propTypes = {
   border: PropTypes.bool,
   boxShadow: PropTypes.bool,
@@ -78,14 +78,14 @@ MainCard.propTypes = {
   secondary: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.string,
-    PropTypes.object,
+    PropTypes.object
   ]),
   shadow: PropTypes.string,
   sx: PropTypes.object,
   title: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.string,
-    PropTypes.object,
-  ]),
-};
-export default MainCard;
+    PropTypes.object
+  ])
+}
+export default MainCard

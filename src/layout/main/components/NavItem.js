@@ -1,65 +1,65 @@
-import React from "react";
+import React from 'react'
 import {
   Chip,
   ListItem,
   ListItemIcon,
   ListItemText,
   makeStyles,
-  Typography,
-} from "@material-ui/core";
-import { useNavigate, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
-import "bootstrap-css-only/css/bootstrap.css";
+  Typography
+} from '@material-ui/core'
+import { useNavigate, useLocation } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import 'bootstrap-css-only/css/bootstrap.css'
 
 const useStyles = makeStyles((theme) => ({
   listIcon: {
-    minWidth: "18px",
-    marginTop: "auto",
-    marginBottom: "auto",
+    minWidth: '18px',
+    marginTop: 'auto',
+    marginBottom: 'auto'
   },
   listCustomIconSub: {
-    width: "6px",
-    height: "6px",
+    width: '6px',
+    height: '6px'
   },
   listCustomIconSubActive: {
-    width: "8px",
-    height: "8px",
+    width: '8px',
+    height: '8px'
   },
   listItem: {
     marginBottom: theme.spacing(1),
     marginTop: theme.spacing(1),
-    alignItems: "center",
+    alignItems: 'center',
     borderRadius: theme.shape.borderRadius,
-    paddingTop: theme.spacing(1),
+    paddingTop: theme.spacing(1)
   },
   listItemActive: {
-    margin: "auto",
+    margin: 'auto',
     marginBottom: theme.spacing(1),
     marginTop: theme.spacing(1),
-    alignItems: "center",
-    borderRadius: "20px",
+    alignItems: 'center',
+    borderRadius: '20px',
     paddingTop: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.light
   },
   listItemNoBack: {
-    marginBottom: "5px",
-    backgroundColor: "transparent !important",
-    paddingTop: "8px",
-    paddingBottom: "8px",
-    alignItems: "flex-start",
+    marginBottom: '5px',
+    backgroundColor: 'transparent !important',
+    paddingTop: '8px',
+    paddingBottom: '8px',
+    alignItems: 'flex-start'
   },
   subMenuCaption: {
-    ...theme.typography.subMenuCaption,
+    ...theme.typography.subMenuCaption
   },
   icon: {
-    color: theme.palette.error.dark,
-  },
-}));
+    color: theme.palette.error.dark
+  }
+}))
 const NavItem = ({ item }) => {
-  const location = useLocation();
-  const classes = useStyles();
-  const navigate = useNavigate();
-  const { Icon } = item;
+  const location = useLocation()
+  const classes = useStyles()
+  const navigate = useNavigate()
+  const { Icon } = item
   return (
     <ListItem
       button={true}
@@ -78,23 +78,23 @@ const NavItem = ({ item }) => {
       )}
       <ListItemText
         primary={
-          <Typography color={"inherit"} variant={"h5"}>
+          <Typography color={'inherit'} variant={'h5'}>
             {item.title}
           </Typography>
         }
       />
       {item.chip && (
         <Chip
-          color={"default"}
-          variant={"default"}
-          size={"small"}
+          color={'default'}
+          variant={'default'}
+          size={'small'}
           label={item.chip.label}
         />
       )}
     </ListItem>
-  );
-};
+  )
+}
 NavItem.propTypes = {
-  item: PropTypes.object,
-};
-export default NavItem;
+  item: PropTypes.object
+}
+export default NavItem

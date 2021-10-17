@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react'
 import {
   Button,
   Card,
@@ -6,44 +6,44 @@ import {
   Divider,
   Grid,
   makeStyles,
-  Typography,
-} from "@material-ui/core";
-import PropTypes from "prop-types";
+  Typography
+} from '@material-ui/core'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles((theme) => ({
   header: {
     color: theme.palette.error.main,
-    justifyContent: "center",
-    alignContent: "center",
+    justifyContent: 'center',
+    alignContent: 'center'
   },
   content: {},
   root: {
-    minWidth: 400,
+    minWidth: 400
   },
   reloadButton: {
     color: theme.palette.error.main,
     fontWeight: 650,
-    fontFamily: "sans-serif",
-    margin: theme.spacing(2),
-  },
-}));
+    fontFamily: 'sans-serif',
+    margin: theme.spacing(2)
+  }
+}))
 const Reload = ({ error, reload }) => {
-  const classes = useStyles();
+  const classes = useStyles()
   useEffect(() => {
-    console.log(error.message);
-  });
+    console.log(error.message)
+  })
   return (
     <Card className={classes.root}>
       <CardContent className={classes.content}>
         <Grid
-          alignItems={"center"}
+          alignItems={'center'}
           container={true}
-          justifyContent={"center"}
-          alignContent={"center"}
-          direction={"column"}
+          justifyContent={'center'}
+          alignContent={'center'}
+          direction={'column'}
         >
           <Grid item>
-            <Typography color={"inherit"} variant={"body2"}>
+            <Typography color={'inherit'} variant={'body2'}>
               {error.message}
             </Typography>
           </Grid>
@@ -56,11 +56,11 @@ const Reload = ({ error, reload }) => {
         </Grid>
       </CardContent>
     </Card>
-  );
-};
+  )
+}
 
 Reload.propTypes = {
   error: PropTypes.object,
-  reload: PropTypes.func,
-};
-export default Reload;
+  reload: PropTypes.func
+}
+export default Reload
