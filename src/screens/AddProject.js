@@ -14,9 +14,7 @@ import { addProjectAction } from '../store/actions'
 import Loading from '../components/Loading'
 
 const useStyles = makeStyles(theme => ({
-  modalRoot: {
-    top: '10%'
-  },
+  modalRoot: {},
   textField: {
     marginBottom: theme.spacing(3),
     minWidth: 300
@@ -75,7 +73,7 @@ const AddProject = ({ open, handleClose }) => {
   }
   return (
         <MDBModal className={classes.modalRoot} size={'md'}
-                  isOpen={open} toggle={handleClose}>
+                  isOpen={open} toggle={handleClose} centered>
             <MDBModalBody>
                 {project && <Grid container>
                     <Grid item>

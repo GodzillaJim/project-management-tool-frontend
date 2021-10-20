@@ -3,16 +3,31 @@ import MainCard from './MainCard'
 import {
   Avatar,
   Grid,
+  IconButton,
   makeStyles,
   Menu,
   MenuItem,
+  Snackbar,
   Typography
 } from '@material-ui/core'
 
 import EarningIcon from '../assets/images/icons/earning.svg'
-import { CalendarToday, Details, Edit, MoreHoriz } from '@material-ui/icons'
+import {
+  CalendarToday,
+  Delete,
+  Details,
+  Edit,
+  MoreHoriz
+} from '@material-ui/icons'
 import PropTypes from 'prop-types'
 import moment from 'moment'
+import { useLocation, useNavigate } from 'react-router-dom'
+import View from './View'
+import { deleteProjectAction } from '../store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import Loading from './Loading'
+import { Alert } from '@mui/material'
+import { DELETE_PROJECT_RESET } from '../store/constants'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -105,14 +120,21 @@ const useStyles = makeStyles((theme) => ({
 }))
 const ContainCard = ({ project }) => {
   const classes = useStyles()
+  useNavigate()
+  useLocation()
+  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [deadline, setDeadline] = React.useState(null)
+  const [view, setView] = React.useState(false)
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget)
   }
-  const handleClose = () => {
+  const handleClose = (e) => {
+    e.preventDefault()
     setAnchorEl(null)
+    setView(!view)
   }
+  const { loading, error, success } = useSelector(state => state.deleteProject)
   React.useEffect(() => {
     if (!deadline) {
       let days = moment(project.endDate).diff(moment(), 'day')
@@ -124,14 +146,40 @@ const ContainCard = ({ project }) => {
         setDeadline(days + ' Days remaining')
       }
     }
-  }, [project, deadline])
+  }, [project, deadline, error, success, loading])
+  const handleDeleteProject = () => {
+    dispatch(deleteProjectAction(project.projectIdentifier))
+  }
+  const handleResetValues = () => {
+    dispatch({ type: DELETE_PROJECT_RESET })
+  }
   return (
         <MainCard
             border={false}
             className={classes.card}
             contentClass={classes.content}
         >
-            <Grid container direction={'column'}>
+            <Snackbar key={'top' + 'center'}
+                      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                      open={Boolean(error)}
+                      autoHideDuration={6000} onClick={handleResetValues}
+                      onClose={handleResetValues}>
+                <Alert severity={'error'} onClose={handleResetValues}
+                       onClick={handleResetValues}>{error && error.message}</Alert>
+            </Snackbar>
+            <Snackbar key={'top' + 'center' + project.projectIdentifier}
+                      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                      open={Boolean(success)}
+                      autoHideDuration={6000} onClick={handleResetValues}
+                      onClose={handleResetValues}>
+                <Alert severity={'success'} onClick={handleResetValues}
+                       onClose={handleResetValues}>Project deleted
+                    successfully!</Alert>
+
+            </Snackbar>
+            <View project={project} open={view} toggle={setView}/>
+            {loading && <Loading/>}
+            {!loading && <Grid container direction={'column'}>
                 <Grid item>
                     <Grid container justifyContent={'space-between'}>
                         <Grid item>
@@ -167,16 +215,17 @@ const ContainCard = ({ project }) => {
                                   horizontal: 'right'
                                 }}
                             >
-                                <MenuItem onClick={handleClose}
+                                <MenuItem name={'view'}
+                                          onClick={handleClose}
                                           className={classes.menuText}>
                                     <Details
                                         color={'secondary'}
                                         fontSize={'inherit'}
                                         className={classes.menuItem}
-                                    />{' '}
+                                    />
                                     View Details
                                 </MenuItem>
-                                <MenuItem onClick={handleClose}>
+                                <MenuItem onClick={handleClose} name={'edit'}>
                                     <Edit
                                         color={'secondary'}
                                         fontSize={'inherit'}
@@ -186,7 +235,7 @@ const ContainCard = ({ project }) => {
                                         Edit Details
                                     </Typography>
                                 </MenuItem>
-                                <MenuItem onClick={handleClose}
+                                <MenuItem onClick={handleClose} name={'extend'}
                                           className={classes.menuText}>
                                     <CalendarToday
                                         color={'secondary'}
@@ -209,13 +258,23 @@ const ContainCard = ({ project }) => {
                     </Grid>
                 </Grid>
                 <Grid item sx={{ mb: 1.25 }}>
-                    <Typography
-                        className={classes.subHeading}>{project.projectName}</Typography>
+                    <Grid container justifyContent={'space-between'}
+                          direction={'row'}>
+                        <Grid item><Typography
+                            className={classes.subHeading}>{project.projectName}</Typography>
+                        </Grid>
+                        <Grid item>
+                            <IconButton onClick={handleDeleteProject}>
+                                <Delete className={'text-light'}/>
+                            </IconButton>
+                        </Grid>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </Grid>}
         </MainCard>
   )
 }
+
 ContainCard.propTypes = {
   project: PropTypes.object
 }
